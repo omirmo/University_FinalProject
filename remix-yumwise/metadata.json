@@ -1,0 +1,8 @@
+{
+  "name": "Remix YumWise",
+  "description": "אפליקציה למציאת חלופות מזון בריאות ומותאמות לילדים לפי טעם, מרקם ואלרגיות",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
