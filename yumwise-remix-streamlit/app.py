@@ -3,6 +3,7 @@ import os
 import tomllib
 from pathlib import Path
 from typing import Literal
+import streamlit as streamlit
 
 import httpx
 import streamlit as st
