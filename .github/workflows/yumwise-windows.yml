@@ -3,7 +3,7 @@ name: YumWise for Windows
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [main, "yumwise/streamlit-windows"]
     paths:
       - yumwise-remix-streamlit/app.py
       - yumwise-remix-streamlit/requirements.txt
