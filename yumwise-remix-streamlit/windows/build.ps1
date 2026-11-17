@@ -25,7 +25,9 @@ Copy-Item -LiteralPath "$root/app.py", "$root/README.md" -Destination $stage
 Copy-Item -LiteralPath "$root/.streamlit/config.toml" -Destination "$stage/.streamlit"
 Copy-Item -LiteralPath "$root/frontend/dist" -Destination "$stage/frontend" -Recurse
 $compiler = Join-Path $env:WINDIR "Microsoft.NET/Framework64/v4.0.30319/csc.exe"
-& $compiler /nologo /codepage:65001 /target:winexe /platform:x64 "/out:$stage/YumWise.exe" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Security.dll "$PSScriptRoot/Launcher.cs"
+$launcherSource = (Resolve-Path -LiteralPath (Join-Path $root "windows\Launcher.cs")).ProviderPath
+$launcherExecutable = Join-Path $stage "YumWise.exe"
+& $compiler /nologo /codepage:65001 /target:winexe /platform:x64 "/out:$launcherExecutable" /reference:System.Windows.Forms.dll /reference:System.Drawing.dll /reference:System.Security.dll $launcherSource
 if ($LASTEXITCODE -ne 0) { throw "Compiling YumWise.exe failed." }
 
 Push-Location -LiteralPath $stage
