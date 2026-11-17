@@ -1,0 +1,39 @@
+name: YumWise for Windows
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - yumwise-remix-streamlit/app.py
+      - yumwise-remix-streamlit/requirements.txt
+      - yumwise-remix-streamlit/frontend/dist/**
+      - yumwise-remix-streamlit/.streamlit/config.toml
+      - yumwise-remix-streamlit/windows/**
+      - .github/workflows/yumwise-windows.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+          architecture: x64
+      - name: Build and test Windows launcher
+        shell: pwsh
+        run: ./yumwise-remix-streamlit/windows/build.ps1 -OutputDirectory "${{ runner.temp }}/yumwise-${{ github.run_id }}-${{ github.run_attempt }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: YumWise-Windows-x64
+          path: ${{ runner.temp }}/yumwise-${{ github.run_id }}-${{ github.run_attempt }}/
+          if-no-files-found: error
+          include-hidden-files: true
